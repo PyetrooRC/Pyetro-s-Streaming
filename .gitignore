@@ -1,0 +1,6 @@
+# Este repositorio hospeda SOMENTE a pagina de redirecionamento.
+# Nada da aplicacao, da biblioteca ou de configuracao entra aqui.
+*
+!index.html
+!.gitignore
+!README.md
