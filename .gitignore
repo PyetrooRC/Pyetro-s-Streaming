@@ -2,5 +2,6 @@
 # Nada da aplicacao, da biblioteca ou de configuracao entra aqui.
 *
 !index.html
+!destino.txt
 !.gitignore
 !README.md
