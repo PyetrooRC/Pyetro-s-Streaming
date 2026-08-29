@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="robots" content="noindex,nofollow">
-<meta http-equiv="refresh" content="0; url=https://e064-2804-7f74-b32-bd00-7ac4-8ba5-7c20-4eae.ngrok-free.app">
+<meta http-equiv="refresh" content="3; url=https://b64e-2804-7f74-b32-bd00-7ac4-8ba5-7c20-4eae.ngrok-free.app">
 <title>Pyetro's Streaming</title>
-<a href="https://e064-2804-7f74-b32-bd00-7ac4-8ba5-7c20-4eae.ngrok-free.app">Pyetro's Streaming</a>
+<a id="l" href="https://b64e-2804-7f74-b32-bd00-7ac4-8ba5-7c20-4eae.ngrok-free.app">Pyetro's Streaming</a>
+<script>
+var reserva = "https://b64e-2804-7f74-b32-bd00-7ac4-8ba5-7c20-4eae.ngrok-free.app";
+// Limpa o que este site tiver guardado antes de resolver o destino.
+try { if (window.caches) caches.keys().then(function (ks) {
+  ks.forEach(function (k) { caches.delete(k); }); }); } catch (e) {}
+fetch("destino.txt?_=" + Date.now(), { cache: "no-store" })
+  .then(function (r) { return r.ok ? r.text() : reserva; })
+  .catch(function () { return reserva; })
+  .then(function (u) {
+    u = (u || reserva).trim();
+    if (!/^https?:\/\//.test(u)) u = reserva;
+    document.getElementById("l").href = u;
+    location.replace(u);
+  });
+</script>
