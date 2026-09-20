@@ -1,21 +1,57 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="robots" content="noindex,nofollow">
-<meta http-equiv="refresh" content="3; url=https://stress-bell-supplement-decor.trycloudflare.com">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>Pyetro's Streaming</title>
-<a id="l" href="https://stress-bell-supplement-decor.trycloudflare.com">Pyetro's Streaming</a>
+<style>
+  body{background:#0d0d10;color:#e8e8ea;font:15px/1.5 system-ui,sans-serif;
+       display:grid;place-items:center;height:100vh;margin:0;text-align:center}
+  a{color:#7c5cff}
+  .ps{font-size:40px;font-weight:700;letter-spacing:4px;margin-bottom:14px}
+</style>
+<div>
+  <div class="ps">PS</div>
+  <p id="msg">Procurando o servidor…</p>
+  <p><a id="l" href="https://stress-bell-supplement-decor.trycloudflare.com">abrir manualmente</a></p>
+</div>
 <script>
+// Endereço gravado no último boot do servidor. Serve de reserva: a fonte de
+// verdade é o destino.txt, buscado abaixo sempre sem cache.
 var reserva = "https://stress-bell-supplement-decor.trycloudflare.com";
-// Limpa o que este site tiver guardado antes de resolver o destino.
-try { if (window.caches) caches.keys().then(function (ks) {
-  ks.forEach(function (k) { caches.delete(k); }); }); } catch (e) {}
-fetch("destino.txt?_=" + Date.now(), { cache: "no-store" })
-  .then(function (r) { return r.ok ? r.text() : reserva; })
-  .catch(function () { return reserva; })
-  .then(function (u) {
-    u = (u || reserva).trim();
-    if (!/^https?:\/\//.test(u)) u = reserva;
-    document.getElementById("l").href = u;
-    location.replace(u);
-  });
+var repo = "PyetrooRC/Pyetro-s-Streaming";
+var t = Date.now();
+
+// Ordem de consulta: o raw do GitHub atualiza assim que o push chega; o Pages
+// pode levar minutos para reconstruir, então ele fica por último.
+var fontes = [
+  "https://raw.githubusercontent.com/" + repo + "/main/destino.txt?_=" + t,
+  "https://api.github.com/repos/" + repo + "/contents/destino.txt?ref=main&_=" + t,
+  "destino.txt?_=" + t
+];
+
+function valida(u) {
+  u = (u || "").trim();
+  return /^https:\/\/[a-z0-9.-]+\.(trycloudflare\.com|ngrok-free\.app)$/.test(u) ? u : "";
+}
+
+async function buscar(url) {
+  var r = await fetch(url, {cache: "no-store", headers:
+    url.indexOf("api.github.com") >= 0 ? {Accept: "application/vnd.github.raw"} : {}});
+  if (!r.ok) throw new Error(r.status);
+  return valida(await r.text());
+}
+
+(async function () {
+  try { if (window.caches) (await caches.keys()).forEach(function (k) { caches.delete(k); }); } catch (e) {}
+  for (var i = 0; i < fontes.length; i++) {
+    try {
+      var u = await buscar(fontes[i]);
+      if (u) { document.getElementById("l").href = u; location.replace(u); return; }
+    } catch (e) {}
+  }
+  document.getElementById("l").href = reserva;
+  document.getElementById("msg").textContent =
+    "Não consegui confirmar o endereço atual — tentando o último conhecido.";
+  location.replace(reserva);
+})();
 </script>
